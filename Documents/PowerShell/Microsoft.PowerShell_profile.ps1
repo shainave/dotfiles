@@ -67,7 +67,7 @@ Test-ProgramInstalled -CommandName fzf -PackageId "junegunn.fzf"
 Test-ProgramInstalled -CommandName zoxide -PackageId "ajeetdsouza.zoxide"
 
 # --- Ensure PSFzf module is installed and configured ---
-Ensure-ModuleInstalled -ModuleName PSFzf
+Test-ModuleInstalled -ModuleName PSFzf
 if (-not (Get-Module -Name PSFzf)) {
     Import-Module PSFzf -ErrorAction SilentlyContinue
 }
@@ -177,7 +177,7 @@ if (Test-Path Alias:ls) {
     Remove-Item Alias:ls -ErrorAction SilentlyContinue
 }
 
-$useEza = (Get-Command eza -ErrorAction SilentlyContinue)1
+$useEza = (Get-Command eza -ErrorAction SilentlyContinue)
 
 if ($useEza) {
     # --- EZA-based Aliases (Preferred) ---

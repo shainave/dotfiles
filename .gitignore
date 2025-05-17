@@ -6,6 +6,8 @@
 !Documents/PowerShell/
 !AppData/Roaming/Code/User
 !AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState
+!Scripts/Applications/Firefox/user.js
+!AppData/Roaming/Mozilla/Firefox/Profiles/fjzrcdm8.Shai/chrome/userChrome.css
 !.bashrc
 !.gitignore
 
