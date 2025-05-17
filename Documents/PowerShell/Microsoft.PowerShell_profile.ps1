@@ -73,8 +73,17 @@ if (-not (Get-Module -Name PSFzf)) {
 }
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
+# Set FzF colors (Dracula theme)
+$env:FZF_DEFAULT_OPTS = "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6.272a4"
+
+
 # Set eza configuration directory
-$env:EZA_CONFIG_DIR = "$env:USERPROFILE\.config\eza"
+# $env:EZA_CONFIG_DIR = "$env:USERPROFILE\.config\eza"
+# Set eza colors
+# Set eza environment variables for current session
+$env:EZA_WINDOWS_ATTRIBUTES = "short"
+$env:EZA_ICONS_AUTO = "always"
+$env:EZA_COLORS = "da=2;34:xx=95:ur=36:su=95:sf=36:pi=96"
 
 # End bootstrap
 $sectionTimer.Stop()
@@ -181,12 +190,12 @@ $useEza = (Get-Command eza -ErrorAction SilentlyContinue)
 
 if ($useEza) {
     # --- EZA-based Aliases (Preferred) ---
-    function ls { eza -F --group-directories-first --group-directories-first --time-style='long-iso' --icons @args }
+    function ls { eza -F --group-directories-first --time-style='long-iso' --icons --color=always @args }
     function lh { eza -laF --group-directories-first --time-style='long-iso' --icons @args }
     function lslh { eza -la --icons @args }
     function llt { eza -T --icons @args }
     function lltg { eza -T --git --icons @args }
-    function ll { eza -lF --group-directories-first --time-style='long-iso' --icons @args }
+    function ll { eza -lF --group-directories-first --total-size --time-style='long-iso' --icons --color=always @args }
     function la { eza -la --icons @args }
     function lt { eza -T --icons @args }
 }
