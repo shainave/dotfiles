@@ -1,0 +1,41 @@
+/* Show tab close button for inactive tabs only on hover */
+.tabbrowser-tab:not([pinned]):not([selected]) .tab-close-button {
+  display: none !important;
+}
+.tabbrowser-tab:not([pinned]):not([selected]):hover .tab-close-button {
+  display: inline-flex !important;
+}
+
+/* Add a stripe to the top of the active tab */
+:root {
+  /* --active-tab-top-border: #5294e2 !important; */
+  --active-tab-top-border: #bd93f9 !important;
+}
+
+.tabbrowser-tab[selected] .tab-background {
+  border-top: 3px solid var(--active-tab-top-border) !important;
+}
+
+/* Hide the "title changed" notification dot on pinned tabs and disable notification animation*/
+.tabbrowser-tab > .tab-stack > .tab-content[pinned][titlechanged] {
+  background-image: none !important;
+}
+
+/* Top red stripe as a notification indiactor forRZE tabs */
+.tabbrowser-tab[titlechanged][label*="Mail"] .tab-background,
+.tabbrowser-tab[attention][label*="Mail"] .tab-background,
+.tabbrowser-tab[titlechanged][label*="Telegram"] .tab-background,
+.tabbrowser-tab[attention][label*="Telegram"] .tab-background,
+.tabbrowser-tab[titlechanged][label*="notification"] .tab-background {
+  border-top: 3px solid #ff4040 !important;
+}
+
+/* Move the find bar to the top */
+.browserContainer > findbar {
+  order: -1 !important;
+}
+
+/* Move the find bar close button to the left */
+.findbar-closebutton.tabbable.close-icon {
+  order: -1 !important;
+}
