@@ -74,8 +74,7 @@ if (-not (Get-Module -Name PSFzf)) {
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
 # Set FzF colors (Dracula theme)
-$env:FZF_DEFAULT_OPTS = "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6.272a4"
-
+$env:FZF_DEFAULT_OPTS = '--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
 # Set eza configuration directory
 # $env:EZA_CONFIG_DIR = "$env:USERPROFILE\.config\eza"
@@ -100,11 +99,12 @@ $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIden
 $adminSymbol = $isAdmin ? " ⚡" : ""
 $host.UI.RawUI.WindowTitle = "PowerShell $($PSVersionTable.PSVersion)$adminSymbol"
 
+# --- Start Starship prompt ---
+Invoke-Expression (&starship init powershell)
+
 # --- Initialize zoxide shell integration ---
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
-# --- Start Starship prompt ---
-Invoke-Expression (&starship init powershell)
 
 $sectionTimer.Stop()
 Write-TimingLog "Terminal configured in $($sectionTimer.ElapsedMilliseconds) ms"
