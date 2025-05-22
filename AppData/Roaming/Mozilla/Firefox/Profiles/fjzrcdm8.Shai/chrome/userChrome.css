@@ -1,10 +1,10 @@
 /* Show tab close button for inactive tabs only on hover */
-.tabbrowser-tab:not([pinned]):not([selected]) .tab-close-button {
+/* .tabbrowser-tab:not([pinned]):not([selected]) .tab-close-button {
   display: none !important;
 }
 .tabbrowser-tab:not([pinned]):not([selected]):hover .tab-close-button {
   display: inline-flex !important;
-}
+}*/
 
 /* Add a stripe to the top of the active tab */
 :root {
@@ -38,4 +38,10 @@
 /* Move the find bar close button to the left */
 .findbar-closebutton.tabbable.close-icon {
   order: -1 !important;
+}
+
+/* Change the background color of selected text in the address bar (only for Dracula Theme) */
+#urlbar-input::selection {
+  background-color: #6272a4 !important;
+  color: #f8f8f2 !important;
 }
