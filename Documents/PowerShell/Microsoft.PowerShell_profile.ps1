@@ -61,11 +61,19 @@ if ($global:ToolsAvailable.eza) {
 if ($global:ToolsAvailable.fzf) {
     $env:FZF_DEFAULT_OPTS = '--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
-    # Import PSFzf only if fzf exists and module is available
-    if (Get-Module -ListAvailable -Name PSFzf) {
-        Import-Module PSFzf -ErrorAction SilentlyContinue
-        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+    # Lazy load PSFzf module - only import when first used
+    $global:PSFzfLoaded = $false
+    function Initialize-PSFzf {
+        if (-not $global:PSFzfLoaded -and (Get-Module -ListAvailable -Name PSFzf)) {
+            Import-Module PSFzf -ErrorAction SilentlyContinue
+            Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+            $global:PSFzfLoaded = $true
+        }
     }
+
+    # Override the key handlers to initialize PSFzf on first use
+    Set-PSReadLineKeyHandler -Chord 'Ctrl+t' -ScriptBlock { Initialize-PSFzf; Invoke-FzfTabCompletion }
+    Set-PSReadLineKeyHandler -Chord 'Ctrl+r' -ScriptBlock { Initialize-PSFzf; Invoke-FzfHistory }
 }
 
 $sectionTimer.Stop()
@@ -84,11 +92,29 @@ $host.UI.RawUI.WindowTitle = "PowerShell $($PSVersionTable.PSVersion)$adminSymbo
 
 # Only initialize tools that are available
 if ($global:ToolsAvailable.starship) {
-    Invoke-Expression (&starship init powershell)
+    try {
+        $starshipInit = &starship init powershell
+        if ($starshipInit) {
+            Invoke-Expression -Command ($starshipInit -join "`n")
+        }
+    }
+    catch {
+        # Silently fall back to default prompt
+    }
 }
 
 if ($global:ToolsAvailable.zoxide) {
-    Invoke-Expression (& { (zoxide init powershell | Out-String) })
+    try {
+        # Test if zoxide can actually run first
+        $null = &zoxide --version 2>$null
+        $zoxideInit = &zoxide init powershell --cmd cd 2>$null
+        if ($zoxideInit -and $zoxideInit.Count -gt 0) {
+            Invoke-Expression -Command ($zoxideInit -join "`n")
+        }
+    }
+    catch {
+        # Silently fall back to regular cd
+    }
 }
 
 $sectionTimer.Stop()
@@ -448,6 +474,29 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+LeftArrow' -Function BackwardWord
 Set-PSReadLineKeyHandler -Chord 'Ctrl+RightArrow' -Function ForwardWord
 Set-PSReadLineKeyHandler -Chord 'Ctrl+z' -Function Undo
 Set-PSReadLineKeyHandler -Chord 'Ctrl+y' -Function Redo
+
+# PSFzf integration - lazy load when first used
+if ($global:ToolsAvailable.fzf) {
+    $global:PSFzfLoaded = $false
+
+    function Initialize-PSFzf {
+        if (-not $global:PSFzfLoaded -and (Get-Module -ListAvailable -Name PSFzf)) {
+            Import-Module PSFzf -ErrorAction SilentlyContinue
+            Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+            $global:PSFzfLoaded = $true
+        }
+    }
+
+    # Override key handlers to initialize PSFzf on first use
+    Set-PSReadLineKeyHandler -Chord 'Ctrl+t' -ScriptBlock {
+        Initialize-PSFzf
+        if ($global:PSFzfLoaded) { Invoke-FzfTabCompletion }
+    }
+    Set-PSReadLineKeyHandler -Chord 'Ctrl+r' -ScriptBlock {
+        Initialize-PSFzf
+        if ($global:PSFzfLoaded) { Invoke-FzfHistory }
+    }
+}
 
 # History management - prevent sensitive information from being recorded
 Set-PSReadLineOption -AddToHistoryHandler {
