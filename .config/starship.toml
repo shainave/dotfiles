@@ -52,7 +52,7 @@ disabled = false
 show_always = true
 style_user = "bg:#2e3440"
 style_root = "bg:#9A348E"
-format = '[ $user ]($style)' #'[ $user ]($style)'
+format = '[ $user ]($style)' #'[ $user ]($style)'
 disabled = false
 
 [os]
