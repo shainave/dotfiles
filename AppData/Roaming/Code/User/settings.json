@@ -71,12 +71,12 @@
 
   // Files Associations
   "files.associations": {
-    "xlf": "xml",
-    "xliff": "xml",
-    "sdlxliff": "xml",
-    "mqxliff": "xml",
-    "mqres": "xml",
-    "tmx": "xml"
+    "*.xlf": "xml",
+    "*.xliff": "xml",
+    "*.sdlxliff": "xml",
+    "*.mqxliff": "xml",
+    "*.mqres": "xml",
+    "*.tmx": "xml"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
