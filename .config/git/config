@@ -1,0 +1,6 @@
+[core]
+	editor = \"C:\\Users\\Shai\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code\" --wait
+	excludesfile = ~/.config/git/ignore
+[user]
+	name = Shai Nave
+	email = shai@shainave.com
