@@ -4,3 +4,5 @@
 [user]
 	name = Shai Nave
 	email = shai@shainave.com
+[safe]
+	directory = C:/Users/Shai/.dotfiles.git
