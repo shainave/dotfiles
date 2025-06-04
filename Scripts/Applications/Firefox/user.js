@@ -10,13 +10,13 @@
 /****************************************************************************
  * Betterfox                                                                *
  * "Ad meliora"                                                             *
- * version: 137                                                             *
+ * version: 138                                                             *
  * url: https://github.com/yokoffing/Betterfox                              *
-****************************************************************************/
+ ****************************************************************************/
 
 /****************************************************************************
  * SECTION: FASTFOX                                                         *
-****************************************************************************/
+ ****************************************************************************/
 /** GENERAL ***/
 user_pref("content.notify.interval", 100000);
 
@@ -26,6 +26,9 @@ user_pref("gfx.content.skia-font-cache-size", 20);
 
 /** DISK CACHE ***/
 user_pref("browser.cache.disk.enable", false);
+
+/** MEMORY CACHE ***/
+user_pref("browser.sessionhistory.max_total_viewers", 4);
 
 /** MEDIA CACHE ***/
 user_pref("media.memory_cache_max_size", 65536);
@@ -44,8 +47,11 @@ user_pref("network.dnsCacheExpiration", 3600);
 user_pref("network.ssl_tokens_cache_capacity", 10240);
 
 /** SPECULATIVE LOADING ***/
+user_pref("network.http.speculative-parallel-limit", 0);
 user_pref("network.dns.disablePrefetch", true);
 user_pref("network.dns.disablePrefetchFromHTTPS", true);
+user_pref("browser.urlbar.speculativeConnect.enabled", false);
+user_pref("browser.places.speculativeConnect.enabled", false);
 user_pref("network.prefetch-next", false);
 user_pref("network.predictor.enabled", false);
 user_pref("network.predictor.enable-prefetch", false);
@@ -55,7 +61,7 @@ user_pref("layout.css.grid-template-masonry-value.enabled", true);
 
 /****************************************************************************
  * SECTION: SECUREFOX                                                       *
-****************************************************************************/
+ ****************************************************************************/
 /** TRACKING PROTECTION ***/
 user_pref("browser.contentblocking.category", "strict");
 user_pref("browser.download.start_downloads_in_tmp_dir", true);
@@ -119,6 +125,7 @@ user_pref("permissions.default.geo", 2);
 user_pref("geo.provider.network.url", "https://beacondb.net/v1/geolocate");
 user_pref("browser.search.update", false);
 user_pref("permissions.manager.defaultsUrl", "");
+user_pref("extensions.getAddons.cache.enabled", false);
 
 /** TELEMETRY ***/
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
@@ -137,6 +144,7 @@ user_pref("toolkit.coverage.opt-out", true);
 user_pref("toolkit.coverage.endpoint.base", "");
 user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
+user_pref("datareporting.usage.uploadEnabled", false);
 
 /** EXPERIMENTS ***/
 user_pref("app.shield.optoutstudies.enabled", false);
@@ -147,22 +155,23 @@ user_pref("app.normandy.api_url", "");
 user_pref("breakpad.reportURL", "");
 user_pref("browser.tabs.crashReporting.sendReport", false);
 
-/** DETECTION ***/
-user_pref("captivedetect.canonicalURL", "");
-user_pref("network.captive-portal-service.enabled", false);
-user_pref("network.connectivity-service.enabled", false);
-
 /****************************************************************************
  * SECTION: PESKYFOX                                                        *
-****************************************************************************/
+ ****************************************************************************/
 /** MOZILLA UI ***/
 user_pref("browser.privatebrowsing.vpnpromourl", "");
 user_pref("extensions.getAddons.showPane", false);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 user_pref("browser.discovery.enabled", false);
 user_pref("browser.shell.checkDefaultBrowser", false);
-user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false);
-user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false);
+user_pref(
+  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons",
+  false
+);
+user_pref(
+  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features",
+  false
+);
 user_pref("browser.preferences.moreFromMozilla", false);
 user_pref("browser.aboutConfig.showWarning", false);
 user_pref("browser.aboutwelcome.enabled", false);
@@ -206,7 +215,7 @@ user_pref("layout.word_select.eat_space_to_next_word", false);
 
 /****************************************************************************
  * START: MY OVERRIDES                                                      *
-****************************************************************************/
+ ****************************************************************************/
 // visit https://github.com/yokoffing/Betterfox/wiki/Common-Overrides
 // visit https://github.com/yokoffing/Betterfox/wiki/Optional-Hardening
 // Enter your personal overrides below this line:
@@ -214,7 +223,10 @@ user_pref("layout.word_select.eat_space_to_next_word", false);
 // PREF: improve font rendering by using DirectWrite everywhere like Chrome [WINDOWS]
 user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
 user_pref("gfx.font_rendering.cleartype_params.cleartype_level", 100);
-user_pref("gfx.font_rendering.cleartype_params.force_gdi_classic_for_families", "");
+user_pref(
+  "gfx.font_rendering.cleartype_params.force_gdi_classic_for_families",
+  ""
+);
 user_pref("gfx.font_rendering.directwrite.use_gdi_table_loading", false);
 
 // PREF: enable HTTPS-Only Mode
@@ -230,14 +242,14 @@ user_pref("network.trr.uri", "https://dns.nextdns.io/2d795e/FireFox"); // NextDN
 
 // PREF: Open URLs in a new tab instead of a new window
 // user_pref("browser.link.open_newwindow", 3); //divert new window to a new tab ===========> Default as of 18/04/2025
-// user_pref("browser.link.open_newwindow.restriction", 0); // Apply the above setting to ALL new windows (even script windows with features) 
+// user_pref("browser.link.open_newwindow.restriction", 0); // Apply the above setting to ALL new windows (even script windows with features)
 user_pref("browser.link.open_newwindow.override.external", 3); // Open external links in a new tab in the last active window
 
 // PREF: Don't revamp the sidebar ===========> Default as of 18/04/2025
 // user_pref("sidebar.revamp", false);
 
-// PREF: Do not offer to translate websites ===========> Default? 21/04/2025
-// user_pref("browser.translations.automaticallyPopup", false);
+// PREF: Do not offer to translate websites
+user_pref("browser.translations.automaticallyPopup", false);
 
 // PREF: disable login manager (don't ask to save passwords)
 user_pref("signon.rememberSignons", false);
@@ -265,14 +277,19 @@ user_pref("browser.newtabpage.activity-stream.topSitesRows", 2);
 // PREF: Address bar suggest autocomplete based on history
 user_pref("browser.urlbar.autoFill.adaptiveHistory.enabled", true);
 
+// Added on 04 June 2025
+// PREF: disable captive portal detection; moved here from the default settings
+// [WARNING] Do NOT use for mobile devices!
+user_pref("captivedetect.canonicalURL", "");
+user_pref("network.captive-portal-service.enabled", false);
+user_pref("network.connectivity-service.enabled", false);
+
 /****************************************************************************
  * SECTION: SMOOTHFOX                                                       *
-****************************************************************************/
+ ****************************************************************************/
 // visit https://github.com/yokoffing/Betterfox/blob/main/Smoothfox.js
 // Enter your scrolling overrides below this line:
 
-
-
 /****************************************************************************
  * END: BETTERFOX                                                           *
-****************************************************************************/
+ ****************************************************************************/
